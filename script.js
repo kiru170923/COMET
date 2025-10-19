@@ -460,7 +460,7 @@ function updateAllTranslations() {
         'Đang xử lý...': t('loadingText')
     };
     
-    // Replace hardcoded text - more aggressive approach
+    // Replace hardcoded text - smarter approach
     Object.keys(textMappings).forEach(hardcodedText => {
         // Update all text nodes
         const walker = document.createTreeWalker(
@@ -472,7 +472,8 @@ function updateAllTranslations() {
         
         let node;
         while (node = walker.nextNode()) {
-            if (node.textContent.trim() === hardcodedText) {
+            const text = node.textContent.trim();
+            if (text === hardcodedText) {
                 node.textContent = textMappings[hardcodedText];
             }
         }
@@ -480,10 +481,54 @@ function updateAllTranslations() {
         // Also update elements with exact text content
         const elements = document.querySelectorAll('*');
         elements.forEach(element => {
-            if (element.textContent.trim() === hardcodedText) {
+            const text = element.textContent.trim();
+            if (text === hardcodedText) {
                 element.textContent = textMappings[hardcodedText];
             }
         });
+    });
+    
+    // Fix mixed content in paragraphs
+    const paragraphs = document.querySelectorAll('p, div, span, h1, h2, h3, h4, h5, h6');
+    paragraphs.forEach(element => {
+        let text = element.textContent;
+        
+        // Replace mixed Vietnamese-English content
+        if (text.includes('created this website to help those who haven\'t been able to register for')) {
+            element.innerHTML = t('step1Text1') + ' <strong>' + t('step1Text2') + '</strong>' + t('step1Text3');
+        }
+        
+        if (text.includes('✨ Đây là 1 chương trình invited nhỏ')) {
+            element.innerHTML = t('step1Highlight');
+        }
+        
+        if (text.includes('THANK YOU VERY MUCH! 💝')) {
+            element.innerHTML = t('step1Thanks');
+        }
+        
+        if (text.includes('Please use a computer to complete the requirements')) {
+            element.innerHTML = '<strong>💻 Quan trọng:</strong> ' + t('step2Info');
+        }
+        
+        if (text.includes('If you have downloaded the Comet browser before')) {
+            element.innerHTML = '<strong>⚠️ Lưu ý:</strong> ' + t('step2Warning');
+        }
+        
+        if (text.includes('Please help me create a new Google account')) {
+            element.innerHTML = '<strong>💡 Ghi chú quan trọng:</strong> ' + t('step3InfoNote');
+        }
+        
+        if (text.includes('I will login to the account and help you activate it')) {
+            element.innerHTML = '<strong>🔒 Bảo mật:</strong> ' + t('step3SecurityNote');
+        }
+        
+        if (text.includes('Thông tin của bạn sẽ được bảo mật tuyệt đối')) {
+            element.innerHTML = '<strong>⚠️ Quan trọng:</strong> ' + t('step3Warning');
+        }
+        
+        if (text.includes('Sau khi thực hiện, nếu đúng và thành công')) {
+            element.innerHTML = '<strong>📌 Lưu ý:</strong> ' + t('step2Note');
+        }
     });
 }
 
