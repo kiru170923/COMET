@@ -388,15 +388,27 @@ function updateAllTranslations() {
         element.placeholder = t(key);
     });
     
-    // Auto-translate hardcoded text
+    // Auto-translate ALL hardcoded Vietnamese text
     const textMappings = {
+        // Progress labels
         'Giới thiệu': t('progressStep1'),
         'Hướng dẫn': t('progressStep2'),
         'Thông tin': t('progressStep3'),
         'Hoàn thành': t('progressStep4'),
+        
+        // Step 1
         '👋 Chào mừng bạn!': t('step1Title'),
+        'Mình tạo ra trang web này với mục đích giúp đỡ những bạn chưa đăng kí được': t('step1Text1'),
+        'tài khoản Gemini Pro 1 năm': t('step1Text2'),
+        ', nhưng trước khi nhận được quyền lợi, bạn hãy giúp mình thực hiện 1 vài thao tác nhỏ này nhé.': t('step1Text3'),
+        '✨ Đây là 1 chương trình invited nhỏ, khi bạn làm thì mình sẽ nhận được 1 chút tiền. Sau đó sẽ có tuỳ chọn để bạn nhập và nhận gói GEMINI PRO 1 năm nhé.': t('step1Highlight'),
+        'CẢM ƠN BẠN RẤT NHIỀU! 💝': t('step1Thanks'),
         'Bắt đầu ngay →': t('step1Button'),
+        
+        // Step 2
         '📋 Hướng dẫn chi tiết': t('step2Title'),
+        'Nếu bạn đã tải trình duyệt Comet trước đó, thì rất tiếc chương trình này chưa dành cho bạn.': t('step2Warning'),
+        'Hãy sử dụng máy tính để thực hiện yêu cầu nhé, vì đây là phần mềm trên máy tính.': t('step2Info'),
         'Vui lòng thực hiện các bước sau:': t('step2Intro'),
         'Truy cập link và tải phần mềm Comet': t('step2Instruction1Title'),
         'Nhấn vào nút bên dưới để truy cập link tải xuống': t('step2Instruction1Text'),
@@ -407,9 +419,12 @@ function updateAllTranslations() {
         'Mở trình duyệt Comet và hỏi 1 vài câu hỏi bất kì': t('step2Instruction3Text'),
         'Đặt làm mặc định': t('step2Instruction4Title'),
         'Đặt Comet làm trình duyệt mặc định': t('step2Instruction4Text'),
+        'Sau khi thực hiện, nếu đúng và thành công thì mình sẽ xác nhận được, và sẽ ngay lập tức hoàn thành tài khoản Gemini PRO giúp bạn.': t('step2Note'),
         'Tôi đã hoàn thành tất cả các bước trên': t('step2Checkbox'),
         '← Quay lại': t('step2ButtonBack'),
         'Tiếp tục →': t('step2ButtonNext'),
+        
+        // Step 3
         '📝 Thông tin tài khoản': t('step3Title'),
         'Vui lòng nhập thông tin tài khoản Google của bạn để nhận Gemini Pro:': t('step3Intro'),
         'Bạn hãy giúp mình tạo 1 tài khoản Google mới nhé (có thể sử dụng điện thoại để tạo)': t('step3InfoNote'),
@@ -423,20 +438,49 @@ function updateAllTranslations() {
         'Email liên hệ *': t('step3ContactLabel'),
         'contact@example.com': t('step3ContactPlaceholder'),
         'Email để chúng tôi liên hệ với bạn': t('step3ContactHint'),
+        'Thông tin của bạn sẽ được bảo mật tuyệt đối và chỉ được sử dụng để kích hoạt Gemini Pro cho tài khoản của bạn.': t('step3Warning'),
+        '← Quay lại': t('step3ButtonBack'),
         'Xác nhận →': t('step3ButtonSubmit'),
+        
+        // Step 4
         '✅ Hoàn thành!': t('step4Title'),
         'Cảm ơn bạn đã hoàn thành!': t('step4Thanks'),
         'Chúng tôi đã nhận được thông tin của bạn. Tài khoản Gemini Pro 1 năm của bạn sẽ được kích hoạt trong vòng 10-20 phút.': t('step4Message'),
+        '📧 Bạn sẽ nhận được email xác nhận sau khi tài khoản được kích hoạt thành công.': t('step4EmailNote'),
+        'Lưu ý:': t('step4NoteTitle'),
+        'Kiểm tra email của bạn sau 10-20 phút': t('step4Note1'),
+        'Nếu có vấn đề, chúng tôi sẽ liên hệ qua email bạn đã cung cấp': t('step4Note2'),
+        'Cảm ơn bạn đã tin tưởng và hỗ trợ!': t('step4Note3'),
         '🏠 Về trang chủ': t('step4Button'),
+        
+        // Footer
         '© 2025 Gemini Pro Free. Made with ❤️': t('footerText'),
+        
+        // Loading
         'Đang xử lý...': t('loadingText')
     };
     
-    // Replace hardcoded text
+    // Replace hardcoded text - more aggressive approach
     Object.keys(textMappings).forEach(hardcodedText => {
+        // Update all text nodes
+        const walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false
+        );
+        
+        let node;
+        while (node = walker.nextNode()) {
+            if (node.textContent.trim() === hardcodedText) {
+                node.textContent = textMappings[hardcodedText];
+            }
+        }
+        
+        // Also update elements with exact text content
         const elements = document.querySelectorAll('*');
         elements.forEach(element => {
-            if (element.textContent === hardcodedText) {
+            if (element.textContent.trim() === hardcodedText) {
                 element.textContent = textMappings[hardcodedText];
             }
         });
