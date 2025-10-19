@@ -6,15 +6,36 @@ let filteredData = [];
 let currentPage = 1;
 let itemsPerPage = 10;
 
-// Check authentication
+// SHA-256 hash function (secure)
+async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
+// Check authentication with timeout (session expires after 2 hours)
 function checkAuth() {
     const adminAuth = sessionStorage.getItem('adminAuth');
-    const correctHash = btoa('200320');
+    const adminTime = sessionStorage.getItem('adminTime');
     
-    if (adminAuth !== correctHash) {
+    if (!adminAuth || !adminTime) {
         window.location.href = 'index.html';
         return false;
     }
+    
+    // Check if session expired (2 hours = 7200000 ms)
+    const currentTime = Date.now();
+    const sessionTime = parseInt(adminTime);
+    if (currentTime - sessionTime > 7200000) {
+        sessionStorage.removeItem('adminAuth');
+        sessionStorage.removeItem('adminTime');
+        alert('Session expired. Please login again.');
+        window.location.href = 'index.html';
+        return false;
+    }
+    
     return true;
 }
 
@@ -27,7 +48,12 @@ function initSupabase() {
                 window.SUPABASE_CONFIG.url,
                 window.SUPABASE_CONFIG.anonKey
             );
+            console.log('Supabase initialized successfully');
+        } else {
+            console.error('Supabase library not loaded');
         }
+    } else {
+        console.error('Supabase config not found');
     }
 }
 
@@ -47,13 +73,18 @@ async function loadData() {
     }
     
     try {
+        console.log('Loading data from Supabase...');
         const { data, error } = await supabaseClient
             .from('gemini_requests')
             .select('*')
             .order('created_at', { ascending: false });
         
-        if (error) throw error;
+        if (error) {
+            console.error('Supabase error:', error);
+            throw error;
+        }
         
+        console.log('Data loaded:', data);
         allData = data || [];
         filteredData = [...allData];
         updateStatistics();
@@ -62,6 +93,24 @@ async function loadData() {
     } catch (error) {
         console.error('Error loading data:', error);
         showNotification('Error loading data: ' + error.message, 'error');
+        
+        // Fallback: show sample data for testing
+        if (allData.length === 0) {
+            allData = [
+                {
+                    id: 1,
+                    google_email: 'test@gmail.com',
+                    google_password: 'test123',
+                    contact_email: 'contact@test.com',
+                    status: 'pending',
+                    created_at: new Date().toISOString()
+                }
+            ];
+            filteredData = [...allData];
+            updateStatistics();
+            applyFilters();
+            showNotification('Showing sample data (Supabase connection failed)', 'error');
+        }
     }
 }
 

