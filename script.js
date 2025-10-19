@@ -312,3 +312,70 @@ function togglePassword() {
         toggleBtn.textContent = '👁️';
     }
 }
+
+// Admin Login Functions
+function toggleAdminLogin() {
+    const popup = document.getElementById('adminLoginPopup');
+    popup.classList.toggle('active');
+    
+    // Clear password field
+    const passwordInput = document.getElementById('adminPassword');
+    if (passwordInput) {
+        passwordInput.value = '';
+    }
+}
+
+function adminLogin() {
+    const passwordInput = document.getElementById('adminPassword');
+    const password = passwordInput.value;
+    
+    // Hash the password for security (simple XOR with key)
+    const correctPasswordHash = btoa('200320'); // Base64 encoded
+    const inputHash = btoa(password);
+    
+    if (inputHash === correctPasswordHash) {
+        // Store admin session
+        sessionStorage.setItem('adminAuth', correctPasswordHash);
+        
+        // Redirect to admin page
+        window.location.href = 'admin.html';
+    } else {
+        showNotification(t('adminWrongPassword'), 'error');
+        passwordInput.value = '';
+    }
+}
+
+// Language switching
+function changeLanguage(lang) {
+    currentLanguage = lang;
+    localStorage.setItem('language', lang);
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Update all translations
+    updateAllTranslations();
+}
+
+// Update all translations on page
+function updateAllTranslations() {
+    // Update elements with data-translate attribute
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        element.textContent = t(key);
+    });
+    
+    // Update placeholders
+    document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-translate-placeholder');
+        element.placeholder = t(key);
+    });
+}
+
+// Initialize language on page load
+window.updateAllTranslations = updateAllTranslations;

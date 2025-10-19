@@ -10,11 +10,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Language Switcher & Admin Access -->
+    <div class="top-bar">
+        <div class="language-switcher">
+            <button class="lang-btn active" data-lang="vi" onclick="changeLanguage('vi')">🇻🇳 VI</button>
+            <button class="lang-btn" data-lang="en" onclick="changeLanguage('en')">🇬🇧 EN</button>
+        </div>
+        <div class="admin-access">
+            <button class="admin-btn" onclick="toggleAdminLogin()">🔐 Admin</button>
+        </div>
+    </div>
+
+    <!-- Admin Login Popup -->
+    <div class="admin-login-popup" id="adminLoginPopup">
+        <div class="admin-login-card">
+            <h3 data-translate="adminAccessTitle">🔐 Admin Access</h3>
+            <input 
+                type="password" 
+                id="adminPassword" 
+                class="admin-input" 
+                placeholder="Enter admin password..."
+                data-translate-placeholder="adminPasswordPlaceholder"
+                onkeypress="if(event.key === 'Enter') adminLogin()"
+            >
+            <button class="btn btn-primary" onclick="adminLogin()" data-translate="adminLoginButton">Đăng nhập</button>
+            <button class="btn btn-secondary" onclick="toggleAdminLogin()">✕ Close</button>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1 class="header-title">GEMINI PRO FREE</h1>
-            <p class="header-subtitle">Nhận tài khoản 1 năm miễn phí</p>
+            <h1 class="header-title" data-translate="headerTitle">GEMINI PRO FREE</h1>
+            <p class="header-subtitle" data-translate="headerSubtitle">Nhận tài khoản 1 năm miễn phí</p>
         </header>
 
         <!-- Progress Bar -->
@@ -272,6 +300,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
