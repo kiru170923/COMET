@@ -32,6 +32,19 @@ function initializeApp() {
     showStep(1);
 }
 
+// Language switching - Redirect to separate files
+function changeLanguage(lang) {
+    if (lang === 'en') {
+        // Already on English page
+        return;
+    } else if (lang === 'vi') {
+        window.location.href = '../vi/index.html';
+    } else {
+        // Default to Vietnamese
+        window.location.href = '../index.html';
+    }
+}
+
 function setupEventListeners() {
     // Checkbox for step 2
     const confirmCheckbox = document.getElementById('confirmSteps');

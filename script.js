@@ -35,9 +35,12 @@ function initializeApp() {
 // Language switching - Redirect to separate files
 function changeLanguage(lang) {
     if (lang === 'en') {
-        window.location.href = 'index-en.html';
+        window.location.href = 'en/index.html';
+    } else if (lang === 'vi') {
+        window.location.href = 'vi/index.html';
     } else {
-        window.location.href = 'index-vi.html';
+        // Default to Vietnamese
+        window.location.href = 'index.html';
     }
 }
 
