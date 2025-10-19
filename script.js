@@ -330,12 +330,20 @@ async function sha256(message) {
 
 async function adminLogin() {
     const passwordInput = document.getElementById('adminPassword');
-    const password = passwordInput.value;
+    const password = passwordInput.value.trim(); // Remove whitespace
+    
+    // Debug logging
+    console.log('Input password:', password);
+    console.log('Password length:', password.length);
     
     // Hash the password with SHA-256 for maximum security
     const inputHash = await sha256(password);
+    console.log('Generated hash:', inputHash);
+    
     // Pre-computed hash of "200320"
     const correctPasswordHash = 'fbb4601715d2bf39d75c43538005c7ed9ee14445909ed89ffa10952afd3c7a99';
+    console.log('Expected hash:', correctPasswordHash);
+    console.log('Hashes match:', inputHash === correctPasswordHash);
     
     if (inputHash === correctPasswordHash) {
         // Store admin session with timestamp

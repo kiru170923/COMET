@@ -349,7 +349,7 @@ async function sha256(message) {
 
 async function adminLogin() {
     const passwordInput = document.getElementById('adminPassword');
-    const password = passwordInput.value;
+    const password = passwordInput.value.trim(); // Remove whitespace
     
     // Hash the password with SHA-256 for maximum security
     const inputHash = await sha256(password);
