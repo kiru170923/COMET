@@ -335,7 +335,7 @@ async function adminLogin() {
     // Hash the password with SHA-256 for maximum security
     const inputHash = await sha256(password);
     // Pre-computed hash of "200320"
-    const correctPasswordHash = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
+    const correctPasswordHash = 'fbb4601715d2bf39d75c43538005c7ed9ee14445909ed89ffa10952afd3c7a99';
     
     if (inputHash === correctPasswordHash) {
         // Store admin session with timestamp
