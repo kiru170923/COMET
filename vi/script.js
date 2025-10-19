@@ -32,15 +32,6 @@ function initializeApp() {
     showStep(1);
 }
 
-// Language switching - Redirect to separate files
-function changeLanguage(lang) {
-    if (lang === 'en') {
-        window.location.href = 'index-en.html';
-    } else {
-        window.location.href = 'index-vi.html';
-    }
-}
-
 function setupEventListeners() {
     // Checkbox for step 2
     const confirmCheckbox = document.getElementById('confirmSteps');
@@ -290,6 +281,24 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
+// Utility Functions
+function sanitizeInput(input) {
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
+}
+
+// Analytics (Optional)
+function trackEvent(eventName, data = {}) {
+    console.log('Event:', eventName, data);
+    // Add your analytics code here (Google Analytics, etc.)
+}
+
+// Track page load
+trackEvent('page_load', {
+    timestamp: new Date().toISOString()
+});
+
 // Toggle Password Visibility
 function togglePassword() {
     const passwordInput = document.getElementById('password');
@@ -343,25 +352,7 @@ async function adminLogin() {
         // Redirect to admin page
         window.location.href = 'admin.html';
     } else {
-        showNotification('Wrong password!', 'error');
+        showNotification('Mật khẩu không đúng!', 'error');
         passwordInput.value = '';
     }
 }
-
-// Utility Functions
-function sanitizeInput(input) {
-    const div = document.createElement('div');
-    div.textContent = input;
-    return div.innerHTML;
-}
-
-// Analytics (Optional)
-function trackEvent(eventName, data = {}) {
-    console.log('Event:', eventName, data);
-    // Add your analytics code here (Google Analytics, etc.)
-}
-
-// Track page load
-trackEvent('page_load', {
-    timestamp: new Date().toISOString()
-});

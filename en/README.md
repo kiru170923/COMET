@@ -4,14 +4,12 @@ let currentStep = 1;
 let supabase = null;
 
 // Initialize Supabase
-if (typeof window.SUPABASE_CONFIG !== 'undefined' && window.SUPABASE_CONFIG.url && window.SUPABASE_CONFIG.anonKey) {
-    if (typeof window.supabase !== 'undefined') {
-        const { createClient } = window.supabase;
-        supabase = createClient(
-            window.SUPABASE_CONFIG.url,
-            window.SUPABASE_CONFIG.anonKey
-        );
-    }
+if (typeof window.SUPABASE_CONFIG !== 'undefined') {
+    const { createClient } = supabase;
+    supabase = createClient(
+        window.SUPABASE_CONFIG.url,
+        window.SUPABASE_CONFIG.anonKey
+    );
 }
 
 // Initialize
@@ -30,15 +28,6 @@ function initializeApp() {
     
     // Show first step
     showStep(1);
-}
-
-// Language switching - Redirect to separate files
-function changeLanguage(lang) {
-    if (lang === 'en') {
-        window.location.href = 'index-en.html';
-    } else {
-        window.location.href = 'index-vi.html';
-    }
 }
 
 function setupEventListeners() {
@@ -288,64 +277,6 @@ function showNotification(message, type = 'info') {
             style.remove();
         }, 300);
     }, 3000);
-}
-
-// Toggle Password Visibility
-function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    const toggleBtn = document.querySelector('.toggle-password');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleBtn.textContent = '🙈';
-    } else {
-        passwordInput.type = 'password';
-        toggleBtn.textContent = '👁️';
-    }
-}
-
-// Admin Login Functions
-function toggleAdminLogin() {
-    const popup = document.getElementById('adminLoginPopup');
-    popup.classList.toggle('active');
-    
-    // Clear password field
-    const passwordInput = document.getElementById('adminPassword');
-    if (passwordInput) {
-        passwordInput.value = '';
-    }
-}
-
-// SHA-256 hash function (secure)
-async function sha256(message) {
-    const msgBuffer = new TextEncoder().encode(message);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-}
-
-async function adminLogin() {
-    const passwordInput = document.getElementById('adminPassword');
-    const password = passwordInput.value;
-    
-    // Hash the password with SHA-256 for maximum security
-    const inputHash = await sha256(password);
-    // Pre-computed hash of "200320"
-    const correctPasswordHash = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
-    
-    if (inputHash === correctPasswordHash) {
-        // Store admin session with timestamp
-        const authToken = await sha256(password + Date.now().toString());
-        sessionStorage.setItem('adminAuth', authToken);
-        sessionStorage.setItem('adminTime', Date.now().toString());
-        
-        // Redirect to admin page
-        window.location.href = 'admin.html';
-    } else {
-        showNotification('Wrong password!', 'error');
-        passwordInput.value = '';
-    }
 }
 
 // Utility Functions

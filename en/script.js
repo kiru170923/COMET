@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeApp() {
     // Check if Supabase is configured
     if (!supabase) {
-        console.warn('Supabase chưa được cấu hình. Vui lòng cập nhật file config.js');
+        console.warn('Supabase is not configured. Please update config.js');
     }
 
     // Setup event listeners
@@ -30,15 +30,6 @@ function initializeApp() {
     
     // Show first step
     showStep(1);
-}
-
-// Language switching - Redirect to separate files
-function changeLanguage(lang) {
-    if (lang === 'en') {
-        window.location.href = 'index-en.html';
-    } else {
-        window.location.href = 'index-vi.html';
-    }
 }
 
 function setupEventListeners() {
@@ -137,7 +128,7 @@ function isValidEmail(email) {
 async function submitForm() {
     // Validate form
     if (!validateForm()) {
-        showNotification('Vui lòng điền đầy đủ thông tin hợp lệ!', 'error');
+        showNotification('Please fill in all valid information!', 'error');
         return;
     }
 
@@ -166,7 +157,7 @@ async function submitForm() {
 
             if (error) {
                 console.error('Supabase error:', error);
-                throw new Error('Không thể lưu thông tin. Vui lòng thử lại!');
+                throw new Error('Cannot save information. Please try again!');
             }
 
             console.log('Data saved successfully:', data);
@@ -187,7 +178,7 @@ async function submitForm() {
         showLoading(false);
 
         // Show success message
-        showNotification('Đã gửi thông tin thành công!', 'success');
+        showNotification('Information submitted successfully!', 'success');
 
         // Move to next step
         setTimeout(() => {
@@ -196,7 +187,7 @@ async function submitForm() {
 
     } catch (error) {
         showLoading(false);
-        showNotification(error.message || 'Có lỗi xảy ra. Vui lòng thử lại!', 'error');
+        showNotification('An error occurred. Please try again!', 'error');
         console.error('Error:', error);
     }
 }
@@ -290,6 +281,24 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
+// Utility Functions
+function sanitizeInput(input) {
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
+}
+
+// Analytics (Optional)
+function trackEvent(eventName, data = {}) {
+    console.log('Event:', eventName, data);
+    // Add your analytics code here (Google Analytics, etc.)
+}
+
+// Track page load
+trackEvent('page_load', {
+    timestamp: new Date().toISOString()
+});
+
 // Toggle Password Visibility
 function togglePassword() {
     const passwordInput = document.getElementById('password');
@@ -347,21 +356,3 @@ async function adminLogin() {
         passwordInput.value = '';
     }
 }
-
-// Utility Functions
-function sanitizeInput(input) {
-    const div = document.createElement('div');
-    div.textContent = input;
-    return div.innerHTML;
-}
-
-// Analytics (Optional)
-function trackEvent(eventName, data = {}) {
-    console.log('Event:', eventName, data);
-    // Add your analytics code here (Google Analytics, etc.)
-}
-
-// Track page load
-trackEvent('page_load', {
-    timestamp: new Date().toISOString()
-});

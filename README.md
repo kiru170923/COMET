@@ -296,3 +296,49 @@ function trackEvent(eventName, data = {}) {
 trackEvent('page_load', {
     timestamp: new Date().toISOString()
 });
+
+## 🌍 Multi-language Support
+
+The website now has two separate versions:
+
+- **index-vi.html** - Vietnamese version (default)
+- **index-en.html** - English version
+
+### Language Switcher
+- 🇻🇳 VI - Redirects to `index-vi.html`
+- 🇬🇧 EN - Redirects to `index-en.html`
+
+The switcher is located in the top bar and will reload the page with the selected language.
+
+### Admin Dashboard
+- Admin interface is in English
+- Access via 🔐 Admin button in top right
+- Password: **200320**
+- Full CRUD functions for managing submissions
+
+## Project Structure
+
+This project now has two separate versions for different languages:
+
+### Vietnamese Version (vi/)
+- Located in the `vi/` folder
+- All texts are hardcoded in Vietnamese
+- Open `vi/index.html` to use
+- Admin panel: `vi/admin.html`
+
+### English Version (en/)
+- Located in the `en/` folder
+- All texts are hardcoded in English
+- Open `en/index.html` to use
+- Admin panel: `en/admin.html`
+
+### Setup
+1. Update `config.js` with your Supabase credentials in both folders
+2. For admin access: Password is `200320`
+3. No language switching - each version is dedicated to one language to avoid mixing
+
+### Features
+- Multi-step form for collecting user information
+- Supabase integration for data storage
+- Admin dashboard for managing submissions
+- Responsive neo-brutalism design
