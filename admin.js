@@ -49,11 +49,37 @@ function initSupabase() {
                 window.SUPABASE_CONFIG.anonKey
             );
             console.log('Supabase initialized successfully');
+            
+            // Test connection
+            testSupabaseConnection();
         } else {
             console.error('Supabase library not loaded');
         }
     } else {
         console.error('Supabase config not found');
+    }
+}
+
+// Test Supabase connection
+async function testSupabaseConnection() {
+    try {
+        console.log('Testing Supabase connection...');
+        const { data, error } = await supabaseClient
+            .from('gemini_requests')
+            .select('count')
+            .limit(1);
+        
+        if (error) {
+            console.error('Connection test failed:', error);
+            if (error.message.includes('permission denied') || error.message.includes('RLS')) {
+                console.error('RLS (Row Level Security) is blocking access. Check database policies.');
+                showNotification('Database access denied. Check RLS policies.', 'error');
+            }
+        } else {
+            console.log('Connection test successful');
+        }
+    } catch (err) {
+        console.error('Connection test error:', err);
     }
 }
 
@@ -74,6 +100,9 @@ async function loadData() {
     
     try {
         console.log('Loading data from Supabase...');
+        console.log('Supabase URL:', window.SUPABASE_CONFIG.url);
+        console.log('Supabase Key:', window.SUPABASE_CONFIG.anonKey.substring(0, 20) + '...');
+        
         const { data, error } = await supabaseClient
             .from('gemini_requests')
             .select('*')
@@ -81,10 +110,12 @@ async function loadData() {
         
         if (error) {
             console.error('Supabase error:', error);
+            console.error('Error details:', JSON.stringify(error, null, 2));
             throw error;
         }
         
         console.log('Data loaded:', data);
+        console.log('Data length:', data ? data.length : 0);
         allData = data || [];
         filteredData = [...allData];
         updateStatistics();
