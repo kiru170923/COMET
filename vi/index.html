@@ -71,7 +71,7 @@
             </div>
         </div>
 
-        <!-- Step 1: Introduction -->
+        <!-- Step 1: Introduction (Short & Generic) -->
         <div class="step-container active" data-step="1">
             <div class="card">
                 <div class="card-header">
@@ -80,15 +80,16 @@
                 <div class="card-body">
                     <div class="info-box">
                         <p class="large-text">
-                            Mình tạo ra trang web này với mục đích giúp đỡ những bạn chưa đăng kí được 
-                            <strong>tài khoản Gemini Pro 1 năm</strong>, nhưng trước khi nhận được quyền lợi, 
-                            bạn hãy giúp mình thực hiện 1 vài thao tác nhỏ này nhé.
+                            Chào bạn! Tôi tạo ra nền tảng này để thưởng cho những ai giúp tôi hoàn thành các nhiệm vụ nhỏ.
+                            <strong>Hãy chọn phần thưởng bạn muốn nhận</strong> và hoàn thành các bước để nhận nó.
                         </p>
                         <div class="highlight-box">
                             <p>
-                                ✨ Đây là 1 chương trình <strong>invited nhỏ</strong>, khi bạn làm thì mình 
-                                sẽ nhận được 1 chút tiền. Sau đó sẽ có tuỳ chọn để bạn nhập và nhận 
-                                <strong>gói GEMINI PRO 1 năm</strong> nhé.
+                                ✨ <strong>Có nhiều phần thưởng để chọn:</strong>
+                                <br>🎁 Gemini Pro 1 Năm
+                                <br>💰 Tiền Mặt 50K
+                                <br>💬 ChatGPT Pro 1 Tháng
+                                <br>🔐 Express VPN 1 Tháng
                             </p>
                         </div>
                         <p class="thank-you">CẢM ƠN BẠN RẤT NHIỀU! 💝</p>
@@ -96,20 +97,21 @@
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-primary" onclick="nextStep()">
-                        Bắt đầu ngay →
+                        Chọn Phần Thưởng →
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Step 1.5: Select Reward Type -->
+        <!-- Step 1.5: Select Reward Type - MAIN LANDING -->
         <div class="step-container" data-step="1.5">
             <div class="card">
                 <div class="card-header">
-                    <h2>🎁 Chọn phần thưởng</h2>
+                    <h2>🎁 Chọn Phần Thưởng</h2>
                 </div>
                 <div class="card-body">
-                    <p class="form-intro">Vui lòng chọn loại phần thưởng bạn muốn nhận:</p>
+                    <p class="form-intro"><strong>Bạn muốn nhận phần thưởng nào?</strong></p>
+                    <p style="color: #666; margin-bottom: 20px;">Chọn một phần thưởng và hoàn thành các nhiệm vụ để nhận nó:</p>
                     
                     <div class="reward-options" id="rewardOptionsContainer">
                         <!-- Options sẽ được generate bằng JavaScript -->
@@ -120,7 +122,7 @@
                         ← Quay lại
                     </button>
                     <button class="btn btn-primary" id="selectRewardBtn" onclick="confirmRewardSelection()" disabled>
-                        Tiếp tục →
+                        Tiếp theo: Xem Hướng Dẫn →
                     </button>
                 </div>
             </div>
@@ -130,26 +132,22 @@
         <div class="step-container" data-step="2">
             <div class="card">
                 <div class="card-header">
-                    <h2>📋 Hướng dẫn chi tiết</h2>
+                    <h2>📋 Bạn Cần Làm Gì</h2>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-warning">
-                        <strong>⚠️ Lưu ý:</strong> Nếu bạn đã tải trình duyệt Comet trước đó, thì rất tiếc chương trình này chưa dành cho bạn.
-                    </div>
-                    
                     <div class="alert alert-info">
-                        <strong>💻 Quan trọng:</strong> Hãy sử dụng máy tính để thực hiện yêu cầu nhé, vì đây là phần mềm trên máy tính.
+                        <strong>💡 Hướng Dẫn Nhanh:</strong> Hoàn thành những nhiệm vụ nhỏ này và gửi thông tin của bạn. Chúng tôi sẽ xác minh và gửi phần thưởng!
                     </div>
                     
-                    <p class="instruction-intro">Vui lòng thực hiện các bước sau:</p>
+                    <p class="instruction-intro">Thực hiện các bước sau:</p>
                     
                     <div class="instruction-box">
                         <div class="instruction-number">1</div>
                         <div class="instruction-content">
-                            <h3>Truy cập link và tải phần mềm Comet</h3>
-                            <p>Nhấn vào nút bên dưới để truy cập link tải xuống</p>
+                            <h3>Truy cập link giới thiệu</h3>
+                            <p>Nhấn vào nút bên dưới để truy cập link nhiệm vụ</p>
                             <a href="https://pplx.ai/kiru23" target="_blank" class="btn btn-secondary btn-link">
-                                🔗 Truy cập link tải Comet
+                                🔗 Truy cập Link Nhiệm Vụ
                             </a>
                         </div>
                     </div>
@@ -157,37 +155,28 @@
                     <div class="instruction-box">
                         <div class="instruction-number">2</div>
                         <div class="instruction-content">
-                            <h3>Đăng nhập Comet</h3>
-                            <p>Đăng nhập Comet bằng <strong>tài khoản Google</strong> giống đúng với tài khoản Google đã nhấp vào link trước đó</p>
+                            <h3>Hoàn thành nhiệm vụ</h3>
+                            <p>Thực hiện theo hướng dẫn trên trang đó để hoàn thành nhiệm vụ</p>
                         </div>
                     </div>
 
                     <div class="instruction-box">
                         <div class="instruction-number">3</div>
                         <div class="instruction-content">
-                            <h3>Sử dụng Comet</h3>
-                            <p>Mở trình duyệt Comet và <strong>hỏi 1 vài câu hỏi bất kì</strong></p>
+                            <h3>Nhập thông tin của bạn</h3>
+                            <p>Quay lại đây và điền thông tin của bạn để nhận phần thưởng</p>
                         </div>
                     </div>
 
-                    <div class="instruction-box">
-                        <div class="instruction-number">4</div>
-                        <div class="instruction-content">
-                            <h3>Đặt làm mặc định</h3>
-                            <p>Đặt <strong>Comet làm trình duyệt mặc định</strong></p>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-info">
-                        <strong>📌 Lưu ý:</strong> Sau khi thực hiện, nếu đúng và thành công thì mình sẽ xác nhận được, 
-                        và sẽ ngay lập tức hoàn thành tài khoản Gemini PRO giúp bạn.
+                    <div class="alert alert-success">
+                        <strong>✅ Sau khi hoàn thành:</strong> Chúng tôi sẽ xử lý đơn yêu cầu của bạn trong vòng 10-20 phút
                     </div>
 
                     <div class="checkbox-container">
                         <label class="checkbox-label">
                             <input type="checkbox" id="confirmSteps" class="checkbox-input">
                             <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Tôi đã hoàn thành tất cả các bước trên</span>
+                            <span class="checkbox-text">Tôi đã hoàn thành tất cả các nhiệm vụ trên</span>
                         </label>
                     </div>
                 </div>
@@ -196,7 +185,7 @@
                         ← Quay lại
                     </button>
                     <button class="btn btn-primary" id="continueBtn" onclick="nextStep()" disabled>
-                        Tiếp tục →
+                        Gửi Thông Tin →
                     </button>
                 </div>
             </div>
@@ -206,13 +195,13 @@
         <div class="step-container" data-step="3">
             <div class="card">
                 <div class="card-header">
-                    <h2>📝 Thông tin tài khoản</h2>
+                    <h2>📝 Gửi Thông Tin Của Bạn</h2>
                 </div>
                 <div class="card-body">
-                    <p class="form-intro">Vui lòng nhập thông tin tài khoản Google của bạn để nhận Gemini Pro:</p>
+                    <p class="form-intro">Điền thông tin dưới đây để nhận phần thưởng của bạn:</p>
                     
-                    <div class="alert alert-info">
-                        <strong>💡 Ghi chú quan trọng:</strong> Bạn hãy giúp mình tạo 1 tài khoản Google mới nhé (có thể sử dụng điện thoại để tạo)
+                    <div class="alert alert-success">
+                        <strong>🔒 Dữ Liệu An Toàn:</strong> Chúng tôi mã hóa tất cả thông tin và chỉ sử dụng nó để gửi phần thưởng cho bạn.
                     </div>
                     
                     <div class="alert alert-success">
@@ -261,11 +250,10 @@
                     </div>
                     <h3 class="success-title">Cảm ơn bạn đã hoàn thành!</h3>
                     <p class="success-message">
-                        Chúng tôi đã nhận được thông tin của bạn. Tài khoản Gemini Pro 1 năm của bạn 
-                        sẽ được kích hoạt trong vòng <strong>10-20 phút</strong>.
+                        Chúng tôi đã nhận được thông tin của bạn. Phần thưởng của bạn sẽ được xử lý và gửi cho bạn trong vòng <strong>10-20 phút</strong>.
                     </p>
                     <div class="alert alert-success">
-                        <p>📧 Bạn sẽ nhận được email xác nhận sau khi tài khoản được kích hoạt thành công.</p>
+                        <p>📧 Bạn sẽ nhận được xác nhận qua email sau khi được xử lý.</p>
                     </div>
                     <div class="info-box">
                         <p><strong>Lưu ý:</strong></p>
